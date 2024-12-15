@@ -35,6 +35,8 @@ mongoose.connect('mongodb://127.0.0.1:27017/short-url', {
 // }
 app.use(express.urlencoded({ extended: false}));
 
+app.set('view engine', 'ejs');
+
 const PORT = 8001;
 
 app.use(express.json());        
