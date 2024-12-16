@@ -1,6 +1,10 @@
 const express = require("express");
 const urlRoute = require('./routes/url');
 const mongoose = require('mongoose');
+const path = require("path");   
+const staticRoute = require('./routes/staticRoute');
+
+const URL = require('./models/url');
 
 const { connectToMongoDB } = require("./connection");
 
@@ -16,9 +20,11 @@ mongoose.set('debug', true);
 //     console.log('Mongodb connected'); 
 // })  
 // .catch((err)=>{
-//     console.log('Error detected');
-//     console.log(err);
-// });
+    //     console.log('Error detected');
+    //     console.log(err);
+    // });
+
+    const PORT = 8001;
 
 // const mongoose = require('mongoose');
 
@@ -30,17 +36,37 @@ mongoose.connect('mongodb://127.0.0.1:27017/short-url', {
   .catch((err) => console.error('Error connecting to MongoDB:', err));
 
 
-// async function connectToMongoDb(url){    
-//     return mongoose.connect(url);
-// }
+  // async function connectToMongoDb(url){    
+    //     return mongoose.connect(url);
+    // }
+app.use(express.json());        
 app.use(express.urlencoded({ extended: false}));
 
-app.set('view engine', 'ejs');
+app.set("view engine", "ejs");
+app.set("views", path.resolve("./views"));
 
-const PORT = 8001;
+app.get("/test", async (req,res)=>{
+    const allUrls = await URL.find({});
+    // return res.end(`
+    //     <html>
+    //         <head></head>
+    //         <body>
+    //             <ol>
+    //                 ${allUrls
+    //                     .map((url)=>
+    //                     `<li>${url.shortId} - ${url.redirectURL} - ${url.visitHistory.length} </li>`
+    //                 ).join("")}
+    //             </ol>
+    //         </body>
+    //     </html>
+    // `);
+    return res.render("home", {  
+        urls: allUrls,
+    });
+});
 
-app.use(express.json());        
 
+app.use(staticRoute);
 app.use("/url",urlRoute);
 
 app.listen(PORT, ()=>{
