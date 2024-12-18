@@ -11,16 +11,24 @@
     <title>Signup</title>
 </head>
 <body>
-    <h1>Signup</h1>
-    <form action="/user" method="post">
-        <label for="" >Full Name</label>
-        <input type="text" placeholder="Enter your Full Name" required name="name">
-        <label for="">Email</label>
-        <input type="text" placeholder="Enter your Email" required name="email">
-        <label for="">Password</label>
-        <input type="text" placeholder="Select a Password" required name="password">
+    <div>
+        <h1>Signup</h1>
+        <form action="/user" method="post">
+            <label for="" >Full Name</label>
+            <input type="text" placeholder="Enter your Full Name" required name="name">
+            <label for="">Email</label>
+            <input type="text" placeholder="Enter your Email" required name="email">
+            <label for="">Password</label>
+            <input type="text" placeholder="Select a Password" required name="password">
 
-        <button type="submit">Signup</button>
-    </form>
+            <button type="submit">Signup</button>
+        </form>
+    </div>
+    <div >
+        <a href="/login">
+            <button type="button">Already have an account? Login</button>
+        </a>
+    </div>
+    
 </body>
 </html>

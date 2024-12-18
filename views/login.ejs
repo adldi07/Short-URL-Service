@@ -11,14 +11,21 @@
     <title>Login</title>
 </head>
 <body>
-    <h1>Login</h1>
-    <form action="/user/login" method="post">
-        <label for="">Email</label>
-        <input type="text" placeholder="Enter your Email" required name="email">
-        <label for="">Password</label>
-        <input type="text" placeholder="Select a Password" required name="password">
+    <div>
+        <h1>Login</h1>
+        <form action="/user/login" method="post">
+            <label for="">Email</label>
+            <input type="text" placeholder="Enter your Email" required name="email">
+            <label for="">Password</label>
+            <input type="text" placeholder="Select a Password" required name="password">
 
-        <button type="submit">Login</button>
-    </form>
+            <button type="submit">Login</button>
+        </form>
+    </div>
+    <div >
+        <a href="/signup">
+            <button type="button">Don't have an account? Signup</button>
+        </a>
+    </div>
 </body>
 </html>
