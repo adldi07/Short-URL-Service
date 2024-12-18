@@ -1,15 +1,20 @@
 const express = require("express");
-const urlRoute = require('./routes/url');
 const mongoose = require('mongoose');
 const path = require("path");   
-const staticRoute = require('./routes/staticRoute');
+const cookieParser = require('cookie-parser');
 
 const URL = require('./models/url');
+
+const { restrictToLoggedinUserOnly , checkAuth } = require('./middleware/auth');
 
 const { connectToMongoDB } = require("./connection");
 
 const app = express();
 
+
+const urlRoute = require('./routes/url');
+const staticRoute = require('./routes/staticRoute');
+const userRoute = require('./routes/user');
 // mongoose.connect("mongodb://localhost:27017/short-url").then(()=>{
 //     console.log('MongoDB Connected');
 // });
@@ -41,6 +46,7 @@ mongoose.connect('mongodb://127.0.0.1:27017/short-url', {
     // }
 app.use(express.json());        
 app.use(express.urlencoded({ extended: false}));
+app.use(cookieParser()); 
 
 app.set("view engine", "ejs");
 app.set("views", path.resolve("./views"));
@@ -66,9 +72,9 @@ app.get("/test", async (req,res)=>{
 });
 
 
-app.use(staticRoute);
-app.use("/url",urlRoute);
-
+app.use('/', checkAuth , staticRoute);
+app.use("/url", restrictToLoggedinUserOnly , urlRoute);
+app.use('/user',userRoute);
 app.listen(PORT, ()=>{
     console.log(`Server is Started on PORT: ${PORT}`);
 })
