@@ -5,7 +5,8 @@ const secret = "adesh@8061";
 function setUser(user){
     const payload = {
         _id : user._id,
-        email : user.email
+        email : user.email,
+        role: user.role,
     }
     // sessionIdToUserMap.set(id,user);
     return jwt.sign(payload,secret);

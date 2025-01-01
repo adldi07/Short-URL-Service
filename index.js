@@ -5,7 +5,7 @@ const cookieParser = require('cookie-parser');
 
 const URL = require('./models/url');
 
-const { restrictToLoggedinUserOnly , checkAuth } = require('./middleware/auth');
+const { restrictToLoggedinUserOnly , checkAuth , restrictTo , checkForAuthentication } = require('./middleware/auth');
 
 const { connectToMongoDB } = require("./connection");
 
@@ -44,10 +44,11 @@ mongoose.connect('mongodb://127.0.0.1:27017/short-url', {
   // async function connectToMongoDb(url){    
     //     return mongoose.connect(url);
     // }
-app.use(express.json());        
-app.use(express.urlencoded({ extended: false}));
-app.use(cookieParser()); 
-
+    app.use(express.json());        
+    app.use(express.urlencoded({ extended: false}));
+    app.use(cookieParser()); 
+    app.use(checkForAuthentication);
+    
 app.set("view engine", "ejs");
 app.set("views", path.resolve("./views"));
 
@@ -71,9 +72,8 @@ app.get("/test", async (req,res)=>{
     });
 });
 
-
-app.use('/', checkAuth , staticRoute);
-app.use("/url", restrictToLoggedinUserOnly , urlRoute);
+app.use('/' , staticRoute);
+app.use("/url" , restrictTo(["NORMAL", "ADMIN"]) ,  urlRoute);
 app.use('/user',userRoute);
 app.listen(PORT, ()=>{
     console.log(`Server is Started on PORT: ${PORT}`);

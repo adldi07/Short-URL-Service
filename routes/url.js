@@ -3,7 +3,7 @@ const URL = require('../models/url');
 
 const {handleGenerateNewShortUrl, handleRedirectUrl,handleAnalyticsUrl} = require("../controllers/url");
 
-const router = express.Router();
+const   router = express.Router();
 
 router.post("/", handleGenerateNewShortUrl); 
 
