@@ -24,7 +24,7 @@ async function handleUserLogin(req,res){
     const user = await users.findOne({ email , password });
     // console.log(user);
     if(!user) return res.render("login",{
-        error:"Invalid username or password",
+        error:" Invalid Username or Password",
     });
     
     // const sessionId = uuidv4();

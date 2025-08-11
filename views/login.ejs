@@ -13,6 +13,11 @@
 <body>
     <div>
         <h1>Login</h1>
+
+        <% if (locals.error) { %>
+            <h1> Error Message : <%= error %> </h1>
+        <% } %>
+
         <form action="/user/login" method="post">
             <label for="">Email</label>
             <input type="text" placeholder="Enter your Email" required name="email">

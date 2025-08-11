@@ -35,7 +35,7 @@ async function handleRedirectUrl(req,res){
 async function handleAnalyticsUrl(req,res){
     const shortId = req.params.shortId;
     const result = await URL.findOne( { shortId } );
-    return res.json({ 
+    return res.render('analytics' , { 
         totalClics: result.visitHistory.length ,
         redirectUrl : result.redirectURL,
         analytics : result.visitHistory,

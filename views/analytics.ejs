@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>URL Analytics</title>
+  <style>
+    :root {
+      --primary: #2c7be5;
+      --primary-light: #e6f0ff;
+      --text-dark: #212529;
+      --text-muted: #6c757d;
+      --bg: #f9fafb;
+      --white: #ffffff;
+      --shadow: rgba(0, 0, 0, 0.1);
+      --success: #3ac47d;
+    }
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: var(--bg);
+      margin: 0;
+      padding: 20px;
+      color: var(--text-dark);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    header {
+      width: 100%;
+      max-width: 900px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 30px;
+      background: var(--white);
+      padding: 15px 20px;
+      box-shadow: 0 2px 8px var(--shadow);
+      border-radius: 8px;
+    }
+    header h1 {
+      margin: 0;
+      font-weight: 700;
+      font-size: 1.8rem;
+      color: var(--primary);
+    }
+    header a.back-btn {
+      text-decoration: none;
+      color: var(--primary);
+      font-weight: 600;
+      border: 2px solid var(--primary);
+      padding: 6px 14px;
+      border-radius: 6px;
+      transition: all 0.3s ease;
+      user-select: none;
+    }
+    header a.back-btn:hover {
+      background-color: var(--primary);
+      color: var(--white);
+    }
+    .card {
+      background: var(--white);
+      max-width: 900px;
+      width: 100%;
+      border-radius: 10px;
+      box-shadow: 0 4px 20px var(--shadow);
+      padding: 30px 40px;
+      margin-bottom: 30px;
+    }
+    .url-info {
+      font-size: 1.2rem;
+      margin-bottom: 15px;
+      word-break: break-all;
+    }
+    .url-info a {
+      color: var(--primary);
+      font-weight: 600;
+      text-decoration: none;
+      border-bottom: 2px solid var(--primary);
+      transition: color 0.3s ease;
+    }
+    .url-info a:hover {
+      color: #1a52b8;
+      border-bottom-color: #1a52b8;
+    }
+    .stats {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--success);
+      margin-bottom: 25px;
+      display: inline-block;
+      background-color: #daf7e4;
+      padding: 8px 20px;
+      border-radius: 30px;
+      box-shadow: 0 2px 8px rgba(58, 196, 125, 0.3);
+      user-select: none;
+    }
+    table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0 8px;
+      font-size: 15px;
+      box-shadow: 0 2px 8px var(--shadow);
+      border-radius: 10px;
+      overflow: hidden;
+      background: var(--white);
+    }
+    thead tr {
+      background-color: var(--primary);
+      color: white;
+      font-weight: 600;
+      font-size: 16px;
+    }
+    thead th {
+      padding: 14px 20px;
+      text-align: left;
+      user-select: none;
+    }
+    tbody tr {
+      background: var(--primary-light);
+      box-shadow: 0 3px 6px var(--shadow);
+      transition: background-color 0.25s ease;
+      cursor: default;
+    }
+    tbody tr:hover {
+      background: #c3dbfc;
+    }
+    tbody td {
+      padding: 12px 20px;
+      vertical-align: middle;
+      color: var(--text-dark);
+    }
+    tbody td:first-child {
+      font-weight: 700;
+    }
+    .no-data {
+      text-align: center;
+      font-style: italic;
+      color: var(--text-muted);
+      padding: 40px 0;
+      font-size: 1.1rem;
+      user-select: none;
+    }
+    @media (max-width: 600px) {
+      body {
+        padding: 15px 10px;
+      }
+      .card {
+        padding: 20px;
+      }
+      thead th, tbody td {
+        padding: 10px 12px;
+        font-size: 14px;
+      }
+      header h1 {
+        font-size: 1.4rem;
+      }
+      header a.back-btn {
+        padding: 6px 10px;
+        font-size: 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>URL Analytics</h1>
+    <a href="/" class="back-btn" title="Back to Dashboard">← Back</a>
+  </header>
+
+  <section class="card">
+    <div class="url-info">
+      Redirect URL: 
+      <a href="<%= redirectUrl %>" target="_blank" rel="noopener noreferrer"><%= redirectUrl %></a>
+    </div>
+    <div class="stats">Total Clicks: <%= totalClics %></div>
+
+    <% if (analytics && analytics.length > 0) { %>
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Timestamp (ms)</th>
+            <th>Date & Time</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% analytics.forEach((item, index) => { 
+              const date = new Date(item.timestamp);
+          %>
+            <tr>
+              <td><%= index + 1 %></td>
+              <td><%= item.timestamp %></td>
+              <td><%= date.toLocaleString('en-US', { dateStyle: 'medium', timeStyle: 'short' }) %></td>
+            </tr>
+          <% }); %>
+        </tbody>
+      </table>
+    <% } else { %>
+      <p class="no-data">No analytics data available for this URL.</p>
+    <% } %>
+  </section>
+
+</body>
+</html>
