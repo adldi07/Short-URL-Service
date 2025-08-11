@@ -3,6 +3,11 @@ const {v4 : uuidv4} = require('uuid')
 const { setUser } = require('../service/auth')
 
 
+async function handleUserLogout(req , res){
+    res.clearCookie('token');
+    res.redirect('/login');
+}
+
 async function handleUserSignup(req,res){
     const { name , email , password } = req.body ;
     await users.create({
@@ -24,7 +29,7 @@ async function handleUserLogin(req,res){
     
     // const sessionId = uuidv4();
     const token =  setUser(user);
-    res.cookie("token", token);
+    res.cookie("token", token); 
     
     return res.redirect('/');
     // return res.json({ token });
@@ -33,4 +38,5 @@ async function handleUserLogin(req,res){
 module.exports = {
     handleUserSignup,
     handleUserLogin,
+    handleUserLogout,
 };
