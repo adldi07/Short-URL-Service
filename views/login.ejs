@@ -1,36 +1,272 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <style>
-        body{
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-    </style>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+            padding: 40px;
+            width: 100%;
+            max-width: 420px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        h1 {
+            color: #0f172a;
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            text-align: center;
+            letter-spacing: -0.02em;
+        }
+
+        .subtitle {
+            color: #64748b;
+            text-align: center;
+            margin-bottom: 36px;
+            font-size: 0.95rem;
+            font-weight: 400;
+        }
+
+        .error {
+            background: linear-gradient(135deg, #fef2f2, #fde8e8);
+            color: #dc2626;
+            padding: 14px 18px;
+            border-radius: 10px;
+            border: 1px solid #fecaca;
+            margin-bottom: 28px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        label {
+            display: block;
+            color: #334155;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+            letter-spacing: 0.01em;
+        }
+
+        input {
+            width: 100%;
+            padding: 14px 18px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.2s ease;
+            background: #fefefe;
+            color: #1e293b;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #6366f1;
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.08);
+            background: white;
+            transform: translateY(-1px);
+        }
+
+        input::placeholder {
+            color: #94a3b8;
+        }
+
+        input:valid {
+            border-color: #10b981;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin-bottom: 24px;
+            letter-spacing: 0.01em;
+        }
+
+        .btn:hover {
+            background: linear-gradient(135deg, #5b5bd6, #7c3aed);
+            transform: translateY(-1px);
+            box-shadow: 0 8px 24px rgba(99, 102, 241, 0.25);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.25);
+        }
+
+        .links {
+            text-align: center;
+            font-size: 0.9rem;
+            margin-bottom: 24px;
+        }
+
+        .links a {
+            color: #6366f1;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+
+        .links a:hover {
+            color: #5b5bd6;
+            text-decoration: underline;
+        }
+
+        .divider {
+            margin: 28px 0;
+            text-align: center;
+            color: #64748b;
+            font-size: 0.85rem;
+            position: relative;
+        }
+
+        .divider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: #e2e8f0;
+        }
+
+        .divider span {
+            background: white;
+            padding: 0 16px;
+        }
+
+        .signup-btn {
+            display: inline-block;
+            width: 100%;
+            text-align: center;
+            padding: 12px 28px;
+            color: #6366f1;
+            border: 2px solid #6366f1;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            font-size: 0.9rem;
+            letter-spacing: 0.01em;
+        }
+
+        .signup-btn:hover {
+            background: #6366f1;
+            color: white;
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(99, 102, 241, 0.2);
+        }
+
+        .signup-btn:active {
+            transform: translateY(0);
+        }
+
+        /* Enhanced focus styles for accessibility */
+        input:focus-visible,
+        .btn:focus-visible,
+        .signup-btn:focus-visible {
+            outline: 2px solid #6366f1;
+            outline-offset: 2px;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 32px 24px;
+            }
+            
+            h1 {
+                font-size: 1.7rem;
+            }
+
+            input {
+                padding: 12px 16px;
+            }
+
+            .btn {
+                padding: 12px;
+            }
+        }
+    </style>
 </head>
 <body>
-    <div>
-        <h1>Login</h1>
+    <div class="container">
+        <h1>Welcome Back</h1>
+        <p class="subtitle">Sign in to your account</p>
 
         <% if (locals.error) { %>
-            <h1> Error Message : <%= error %> </h1>
+            <div class="error">
+                <%= error %>
+            </div>
         <% } %>
 
         <form action="/user/login" method="post">
-            <label for="">Email</label>
-            <input type="text" placeholder="Enter your Email" required name="email">
-            <label for="">Password</label>
-            <input type="text" placeholder="Select a Password" required name="password">
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input 
+                    type="email" 
+                    id="email" 
+                    name="email" 
+                    placeholder="Enter your email address" 
+                    required
+                    autocomplete="email"
+                >
+            </div>
 
-            <button type="submit">Login</button>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input 
+                    type="password" 
+                    id="password" 
+                    name="password" 
+                    placeholder="Enter your password" 
+                    required
+                    autocomplete="current-password"
+                >
+            </div>
+
+            <button type="submit" class="btn">Sign In</button>
         </form>
-    </div>
-    <div >
-        <a href="/signup">
-            <button type="button">Don't have an account? Signup</button>
-        </a>
+
+        <div class="links">
+            <a href="/forgot-password">Forgot your password?</a>
+        </div>
+
+        <div class="divider">
+            <span>Don't have an account?</span>
+        </div>
+
+        <a href="/signup" class="signup-btn">Create New Account</a>
     </div>
 </body>
 </html>
