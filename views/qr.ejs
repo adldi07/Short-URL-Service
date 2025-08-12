@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>QR Code & Short URL</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: #fff;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .container {
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 30px 50px;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+            text-align: center;
+            max-width: 360px;
+            width: 100%;
+        }
+        h1 {
+            margin: 0 0 15px;
+            font-weight: 700;
+            font-size: 1.8rem;
+            color: #fff;
+        }
+        img {
+            width: 140px;
+            height: 140px;
+            margin-bottom: 20px;
+            border-radius: 12px;
+            background: #fff; /* To improve QR code visibility */
+            padding: 10px;
+        }
+        .short-url {
+            background: rgba(0,0,0,0.3);
+            padding: 12px 15px;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            overflow-wrap: break-word;
+            user-select: all; /* Ease copying */
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-bottom: 15px;
+            word-break: break-word;
+        }
+        .short-url:hover {
+            background: rgba(0,0,0,0.5);
+        }
+        a.short-url-link {
+            color: #fff;
+            text-decoration: none;
+            display: inline-block;
+            width: 100%;
+        }
+        a.short-url-link:hover,
+        a.short-url-link:focus {
+            text-decoration: underline;
+            outline: none;
+        }
+        p {
+            font-size: 0.9rem;
+            color: #ddd;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Your QR Code</h1>
+        <img src="<%= qr %>" alt="Generated QR Code" />
+        <div class="short-url" title="Click to copy">
+            <a href="<%= shortUrl.startsWith('http') ? shortUrl : `http://${shortUrl}` %>" 
+               target="_blank" rel="noopener noreferrer" 
+               class="short-url-link" 
+               onclick="event.stopPropagation();">
+               <%= shortUrl %>
+            </a>
+        </div>
+        <p>Scan the QR code or click the URL above to visit the shortened link.</p>
+    </div>
+
+    <script>
+        // Copy the URL to clipboard when the container is clicked (but not when the link itself is clicked)
+        document.querySelector('.short-url').addEventListener('click', function() {
+            const url = this.textContent || this.innerText;
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(url).then(() => {
+                    alert('Short URL copied to clipboard!');
+                }, () => {
+                    fallbackCopy(url);
+                });
+            } else {
+                fallbackCopy(url);
+            }
+        });
+
+        function fallbackCopy(text) {
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            document.body.appendChild(textarea);
+            textarea.select();
+            try {
+                document.execCommand('copy');
+                alert('Short URL copied to clipboard!');
+            } catch {
+                alert('Press Ctrl+C to copy');
+            }
+            document.body.removeChild(textarea);
+        }
+    </script>
+</body>
+</html>
