@@ -10,12 +10,21 @@ async function handleUserLogout(req , res){
 
 async function handleUserSignup(req,res){
     const { name , email , password } = req.body ;
-    await users.create({
-        name,
-        email,
-        password,
-    });
-    return res.redirect('/login');
+    try{
+        await users.create({
+            name,
+            email,
+            password,
+        });
+        // console.log(t);
+        return res.redirect('/login');
+    }
+    catch{
+        res.render('signup' , {
+            error: "User alredy exist with this mail",
+        })
+    }
+    
 }
 
 

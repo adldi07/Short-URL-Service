@@ -46,7 +46,7 @@ function checkForAuthentication(req,res,next){
     const user = getUser(tokenCookie);
     req.user = user ;
     return next();
-}
+}   
 
 function restrictTo(roles = []){
     return function (req,res,next){
