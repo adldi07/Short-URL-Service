@@ -1,6 +1,8 @@
 const express = require("express");
 const mongoose = require('mongoose');
-const path = require("path");   
+const path = require("path"); 
+require("dotenv").config();
+
 const cookieParser = require('cookie-parser');
 //name change
 
@@ -30,14 +32,12 @@ mongoose.set('debug', true);
     //     console.log(err);
     // });
 
-const PORT = 8001;
+
 
 // const mongoose = require('mongoose');
 
-mongoose.connect('mongodb://127.0.0.1:27017/short-url', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-})
+mongoose.connect(process.env.MONGO_URL)
+
   .then(() => console.log('Connected to MongoDB!'))
   .catch((err) => console.error('Error connecting to MongoDB:', err));
 
@@ -75,7 +75,13 @@ app.get("/test", async (req,res)=>{
 
 app.use('/' , staticRoute);
 app.use("/url" , restrictTo(["NORMAL", "ADMIN"]) ,  urlRoute);
-app.use('/user',userRoute);
-app.listen(PORT, ()=>{
-    console.log(`Server is Started on PORT: ${PORT}`);
-})
+app.use('/user', userRoute);
+
+// Start the server if this file is run directly
+if (require.main === module) {
+    app.listen(process.env.PORT, () => {
+        console.log(`Server is running on http://localhost:${process.env.PORT}`);
+    });
+} else {
+    module.exports = app;
+}
