@@ -18,23 +18,6 @@ const app = express();
 const urlRoute = require('./routes/url');
 const staticRoute = require('./routes/staticRoute');
 const userRoute = require('./routes/user');
-// mongoose.connect("mongodb://localhost:27017/short-url").then(()=>{
-//     console.log('MongoDB Connected');
-// });
-mongoose.set('debug', true);
-
-
-// connectToMongoDB("mongodb://localhost:27017/short-url").then(()=>{
-//     console.log('Mongodb connected'); 
-// })  
-// .catch((err)=>{
-    //     console.log('Error detected');
-    //     console.log(err);
-    // });
-
-
-
-// const mongoose = require('mongoose');
 
 mongoose.connect(process.env.MONGO_URL)
 
@@ -55,21 +38,9 @@ app.set("views", path.resolve("./views"));
 
 app.get("/test", async (req,res)=>{
     const allUrls = await URL.find({});
-    // return res.end(`
-    //     <html>
-    //         <head></head>
-    //         <body>
-    //             <ol>
-    //                 ${allUrls
-    //                     .map((url)=>
-    //                     `<li>${url.shortId} - ${url.redirectURL} - ${url.visitHistory.length} </li>`
-    //                 ).join("")}
-    //             </ol>
-    //         </body>
-    //     </html>
-    // `);
     return res.render("home", {  
         urls: allUrls,
+        BASE_URL: process.env.BASE_URL
     });
 });
 
@@ -77,7 +48,6 @@ app.use('/' , staticRoute);
 app.use("/url" , restrictTo(["NORMAL", "ADMIN"]) ,  urlRoute);
 app.use('/user', userRoute);
 
-// Start the server if this file is run directly
 if (require.main === module) {
     app.listen(process.env.PORT, () => {
         console.log(`Server is running on http://localhost:${process.env.PORT}`);

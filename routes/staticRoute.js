@@ -11,7 +11,7 @@ router.get("/admin/urls" , restrictTo(["ADMIN"]),
         const allUrls = await URL.find({}); 
         return res.render("home",{
             urls: allUrls,
-            username: req.user.name ,
+            BASE_URL: process.env.BASE_URL
         });
     }
 );
@@ -22,15 +22,19 @@ router.get('/', restrictTo([ "NORMAL" , "ADMIN" ]) ,  async (req,res)=>{
     const allUrls = await URL.find({ createdBy : req.user._id }); 
     return res.render("home",{
         urls: allUrls,
-        username: req.user.name ,
+        BASE_URL: process.env.BASE_URL
     });
 });
 
 router.get('/signup', (req,res)=>{
-    return res.render("signup");
+    return res.render("signup", {
+        BASE_URL: process.env.BASE_URL
+    });
 })
 router.get('/login',(req,res)=>{
-    return res.render('login');
+    return res.render('login', {
+        BASE_URL: process.env.BASE_URL
+    });
 })
 
 module.exports = router ;

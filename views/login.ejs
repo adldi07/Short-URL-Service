@@ -230,7 +230,7 @@
             </div>
         <% } %>
 
-        <form action="/user/login" method="post">
+        <form method="POST" action="<%= locals.BASE_URL %>/user/login">
             <div class="form-group">
                 <label for="email">Email Address</label>
                 <input 

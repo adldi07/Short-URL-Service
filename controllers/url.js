@@ -14,7 +14,10 @@ async function handleGenerateNewShortUrl(req,res){
         visitHistory: [],
         createdBy: req.user._id,
     });
-    return res.render('home',{ id: shortID });
+    return res.render('home', { 
+        id: shortID,
+        BASE_URL: process.env.BASE_URL 
+    });
 }
 
 async function handleRedirectUrl(req,res){

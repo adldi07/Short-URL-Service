@@ -165,7 +165,7 @@
         <h1>Create Account</h1>
         <p class="subtitle">Join us and get started today</p>
 
-        <form action="/user" method="post">
+        <form method="POST" action="<%= locals.BASE_URL %>/user">
             <% if (locals.error) { %>
                 <div class="error-message">
                     <%= error %>

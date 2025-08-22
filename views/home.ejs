@@ -488,7 +488,7 @@
                 </div>
             <% } %>
             <div class="header-buttons">
-                <a href="/user/logout" class="logout-btn">
+                <a href="<%= locals.BASE_URL %>/user/logout" class="logout-btn">
                     <i class="fas fa-sign-out-alt"></i>
                     Logout
                 </a>
@@ -503,10 +503,10 @@
             <div class="success-message">
                 <p>✅ URL Generated Successfully!</p>
                 <div class="generated-url">
-                    <a href="http://localhost:8001/url/<%= id %>" target="_blank">
-                        http://localhost:8001/url/<%= id %>
+                    <a href="<%= locals.BASE_URL %>/url/<%= id %>" target="_blank">
+                        <%= locals.BASE_URL %>/url/<%= id %>
                     </a>
-                    <button class="copy-btn" onclick="copyToClipboard('http://localhost:8001/url/<%= id %>')">
+                    <button class="copy-btn" onclick="copyToClipboard('<%= locals.BASE_URL %>/url/<%= id %>')">
                         <i class="fas fa-copy"></i>
                         Copy
                     </button>
@@ -517,7 +517,7 @@
         <!-- URL Shortener Form -->
         <div class="form-container">
             <h2>Create Short URL</h2>
-            <form method="POST" action="/url" onsubmit="handleSubmit(event)">
+            <form method="POST" action="<%= locals.BASE_URL %>/url" onsubmit="handleSubmit(event)">
                 <div class="form-group">
                     <label for="url">
                         <i class="fas fa-globe"></i>
@@ -559,14 +559,10 @@
                     </thead>
                     <tbody>
                         <% urls.forEach((url, index) => { %>
-                        <tr> 
-                            <td><strong><%= index + 1 %></strong></td>
+                        <tr>
+                            <td><%= index + 1 %></td>
                             <td>
-                                <a href="http://localhost:8001/url/<%= url.shortId %>" 
-                                   target="_blank" 
-                                   class="short-id-link"
-                                   title="Click to visit shortened URL">
-                                    <i class="fas fa-external-link-alt"></i>
+                                <a href="<%= locals.BASE_URL %>/url/<%= url.shortId %>" target="_blank">
                                     <%= url.shortId %>
                                 </a>
                             </td>
@@ -588,7 +584,7 @@
                             <td>
                                 <div class="action-buttons">
                                     <button class="copy-btn" 
-                                            onclick="copyToClipboard('http://localhost:8001/url/<%= url.shortId %>')"
+                                            onclick="copyToClipboard('<%= locals.BASE_URL %>/url/<%= url.shortId %>')"
                                             title="Copy to clipboard">
                                         <i class="fas fa-copy"></i>
                                         Copy
@@ -659,6 +655,10 @@
             if (urlInput && !document.querySelector('.success-message')) {
                 urlInput.focus();
             }
+        });
+    </script>
+</body>
+</html>
         });
     </script>
 </body>
